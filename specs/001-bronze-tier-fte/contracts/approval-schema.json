@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://bronze-tier-fte/schemas/approval-request.json",
+  "title": "ApprovalRequest",
+  "description": "High-risk action awaiting human approval",
+  "type": "object",
+  "required": ["request_id", "task_id", "action", "risk_level", "justification", "impact", "created", "status"],
+  "properties": {
+    "request_id": {
+      "type": "string",
+      "description": "Unique request identifier",
+      "pattern": "^approval-[0-9]{3,}$",
+      "examples": ["approval-001", "approval-042"]
+    },
+    "task_id": {
+      "type": "string",
+      "description": "Associated task ID",
+      "pattern": "^task-[0-9]{3,}$"
+    },
+    "action": {
+      "type": "string",
+      "description": "Action requiring approval",
+      "minLength": 1,
+      "examples": ["send_email", "delete_file", "execute_payment"]
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": ["MEDIUM", "HIGH"],
+      "description": "Risk classification (LOW doesn't require approval)"
+    },
+    "justification": {
+      "type": "string",
+      "description": "Why this action is needed",
+      "minLength": 1
+    },
+    "impact": {
+      "type": "string",
+      "description": "What will happen if approved",
+      "minLength": 1
+    },
+    "created": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Request creation timestamp (ISO 8601)"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["PENDING", "APPROVED", "REJECTED"],
+      "default": "PENDING",
+      "description": "Current approval status"
+    },
+    "approver": {
+      "type": ["string", "null"],
+      "description": "Who approved/rejected"
+    },
+    "decision_time": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "When decision was made (ISO 8601)"
+    },
+    "notes": {
+      "type": ["string", "null"],
+      "description": "Approver notes"
+    }
+  },
+  "additionalProperties": false
+}

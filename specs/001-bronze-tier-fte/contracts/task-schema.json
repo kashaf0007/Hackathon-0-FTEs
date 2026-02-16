@@ -1,0 +1,85 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://bronze-tier-fte/schemas/task.json",
+  "title": "Task",
+  "description": "A unit of work to be executed by the orchestrator",
+  "type": "object",
+  "required": ["task_id", "title", "type", "priority", "status", "created"],
+  "properties": {
+    "task_id": {
+      "type": "string",
+      "description": "Unique task identifier",
+      "pattern": "^task-[0-9]{3,}$",
+      "examples": ["task-001", "task-042"]
+    },
+    "title": {
+      "type": "string",
+      "description": "Human-readable task title",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "type": {
+      "type": "string",
+      "description": "Task type (e.g., draft_email, organize_files)",
+      "minLength": 1,
+      "examples": ["draft_email", "organize_files", "create_report"]
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["LOW", "MEDIUM", "HIGH"],
+      "default": "MEDIUM",
+      "description": "Task priority level"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["PENDING", "IN_PROGRESS", "AWAITING_APPROVAL", "APPROVED", "COMPLETED", "FAILED"],
+      "default": "PENDING",
+      "description": "Current task status"
+    },
+    "created": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Task creation timestamp (ISO 8601)"
+    },
+    "updated": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "Last update timestamp (ISO 8601)"
+    },
+    "completed": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "Completion timestamp (ISO 8601)"
+    },
+    "assigned_skill": {
+      "type": ["string", "null"],
+      "description": "Skill handling this task",
+      "examples": ["task-orchestrator", "approval-guard"]
+    },
+    "retry_count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3,
+      "default": 0,
+      "description": "Number of retry attempts"
+    },
+    "context": {
+      "type": "object",
+      "description": "Task-specific context data",
+      "additionalProperties": true
+    },
+    "expected_output": {
+      "type": ["string", "null"],
+      "description": "Description of expected result"
+    },
+    "actual_output": {
+      "type": ["string", "null"],
+      "description": "Actual result after execution"
+    },
+    "error_message": {
+      "type": ["string", "null"],
+      "description": "Error details if failed"
+    }
+  },
+  "additionalProperties": false
+}

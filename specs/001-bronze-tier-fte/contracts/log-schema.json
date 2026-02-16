@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://bronze-tier-fte/schemas/log-entry.json",
+  "title": "LogEntry",
+  "description": "Audit log entry for transparency and accountability",
+  "type": "object",
+  "required": ["timestamp", "action", "risk_level", "approval_status", "outcome", "constitutional_compliance"],
+  "properties": {
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Action timestamp (ISO 8601, UTC)"
+    },
+    "task_id": {
+      "type": ["string", "null"],
+      "description": "Associated task ID",
+      "pattern": "^task-[0-9]{3,}$"
+    },
+    "action": {
+      "type": "string",
+      "description": "Action performed",
+      "minLength": 1,
+      "examples": ["draft_email", "create_approval_request", "move_to_done"]
+    },
+    "skill_used": {
+      "type": ["string", "null"],
+      "description": "Skill that performed action",
+      "examples": ["task-orchestrator", "approval-guard", "logging-audit"]
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": ["LOW", "MEDIUM", "HIGH"],
+      "description": "Risk classification of action"
+    },
+    "approval_status": {
+      "type": "string",
+      "enum": ["AUTO_APPROVED", "PENDING_APPROVAL", "APPROVED", "REJECTED"],
+      "description": "Approval status of action"
+    },
+    "outcome": {
+      "type": "string",
+      "enum": ["SUCCESS", "FAILURE", "BLOCKED"],
+      "description": "Result of action"
+    },
+    "error": {
+      "type": ["string", "null"],
+      "description": "Error message if failed"
+    },
+    "constitutional_compliance": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether action complies with constitution"
+    },
+    "dry_run": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this was a simulated action"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional context",
+      "properties": {
+        "duration_ms": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Action duration in milliseconds"
+        },
+        "retry_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3,
+          "description": "Number of retries"
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}
