@@ -1,0 +1,233 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Standard Event Schema",
+  "description": "Standardized event format for all watcher outputs",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["event_id", "source", "type", "timestamp", "priority", "content", "created_at"],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}_[0-9]{6}_[a-z]+_[a-zA-Z0-9]+$",
+      "description": "Unique event identifier (format: YYYYMMDD_HHMMSS_source_uuid)",
+      "examples": ["20260217_143022_gmail_a3f2c1"]
+    },
+    "source": {
+      "type": "string",
+      "enum": ["gmail", "whatsapp", "linkedin", "filesystem", "calendar", "slack"],
+      "description": "Source system that generated the event"
+    },
+    "type": {
+      "type": "string",
+      "description": "Event type (source-specific)",
+      "examples": ["new_message", "new_email", "connection_request", "file_change", "calendar_event"]
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Event occurrence timestamp (ISO 8601)"
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["low", "medium", "high", "urgent"],
+      "description": "Event priority level"
+    },
+    "content": {
+      "type": "object",
+      "required": ["body"],
+      "properties": {
+        "subject": {
+          "type": "string",
+          "description": "Event subject or title (optional)"
+        },
+        "body": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Event body or main content (required)"
+        },
+        "from": {
+          "type": "string",
+          "description": "Sender identifier (email, phone, username)"
+        },
+        "to": {
+          "type": "string",
+          "description": "Recipient identifier"
+        },
+        "attachments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "filename": {
+                "type": "string",
+                "description": "Attachment filename"
+              },
+              "size": {
+                "type": "integer",
+                "description": "File size in bytes"
+              },
+              "mime_type": {
+                "type": "string",
+                "description": "MIME type"
+              },
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "description": "Download URL or local path"
+              }
+            }
+          },
+          "description": "Attachments metadata"
+        }
+      },
+      "description": "Event content"
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "thread_id": {
+          "type": "string",
+          "description": "Conversation thread identifier (optional)"
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Event labels or tags"
+        },
+        "is_reply": {
+          "type": "boolean",
+          "description": "Whether this is a reply to a previous message"
+        },
+        "contact_history": {
+          "type": "string",
+          "enum": ["new", "known", "frequent"],
+          "description": "Sender's contact history"
+        },
+        "raw_data": {
+          "type": "object",
+          "description": "Source-specific raw data"
+        }
+      },
+      "description": "Additional event metadata"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Event creation timestamp in the system (ISO 8601)"
+    },
+    "processed": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the event has been processed"
+    }
+  },
+  "examples": [
+    {
+      "event_id": "20260217_143022_gmail_a3f2c1",
+      "source": "gmail",
+      "type": "new_email",
+      "timestamp": "2026-02-17T14:30:22Z",
+      "priority": "medium",
+      "content": {
+        "subject": "Question about your services",
+        "body": "Hi, I'm interested in learning more about your consulting services. Could we schedule a call?",
+        "from": "potential.client@example.com",
+        "to": "me@example.com",
+        "attachments": []
+      },
+      "metadata": {
+        "thread_id": "thread_abc123",
+        "labels": ["INBOX", "UNREAD"],
+        "is_reply": false,
+        "contact_history": "new",
+        "raw_data": {
+          "message_id": "msg_xyz789",
+          "gmail_labels": ["CATEGORY_PERSONAL"]
+        }
+      },
+      "created_at": "2026-02-17T14:30:25Z",
+      "processed": false
+    },
+    {
+      "event_id": "20260217_150000_whatsapp_b4e3d2",
+      "source": "whatsapp",
+      "type": "new_message",
+      "timestamp": "2026-02-17T15:00:00Z",
+      "priority": "high",
+      "content": {
+        "body": "Hey! Just saw your LinkedIn post. Very interested in discussing a potential collaboration.",
+        "from": "+1234567890",
+        "to": "+0987654321",
+        "attachments": []
+      },
+      "metadata": {
+        "thread_id": "whatsapp_chat_123",
+        "labels": [],
+        "is_reply": false,
+        "contact_history": "known",
+        "raw_data": {
+          "chat_id": "1234567890@c.us",
+          "is_group": false
+        }
+      },
+      "created_at": "2026-02-17T15:00:03Z",
+      "processed": false
+    },
+    {
+      "event_id": "20260217_160000_linkedin_c5f4e3",
+      "source": "linkedin",
+      "type": "connection_request",
+      "timestamp": "2026-02-17T16:00:00Z",
+      "priority": "low",
+      "content": {
+        "subject": "Connection Request",
+        "body": "I'd like to add you to my professional network on LinkedIn.",
+        "from": "John Doe",
+        "to": "me",
+        "attachments": []
+      },
+      "metadata": {
+        "labels": ["connection_request"],
+        "is_reply": false,
+        "contact_history": "new",
+        "raw_data": {
+          "profile_url": "https://www.linkedin.com/in/johndoe",
+          "mutual_connections": 5,
+          "company": "Tech Corp"
+        }
+      },
+      "created_at": "2026-02-17T16:00:05Z",
+      "processed": false
+    }
+  ],
+  "definitions": {
+    "source_types": {
+      "gmail": {
+        "valid_types": ["new_email", "email_reply", "email_thread"],
+        "required_metadata": ["thread_id", "labels"]
+      },
+      "whatsapp": {
+        "valid_types": ["new_message", "group_message", "media_message"],
+        "required_metadata": ["chat_id"]
+      },
+      "linkedin": {
+        "valid_types": ["connection_request", "message", "post_comment", "post_mention"],
+        "required_metadata": ["profile_url"]
+      },
+      "filesystem": {
+        "valid_types": ["file_created", "file_modified", "file_deleted"],
+        "required_metadata": ["file_path", "file_size"]
+      }
+    }
+  },
+  "validation_rules": {
+    "event_id_format": "Must match pattern: YYYYMMDD_HHMMSS_source_uuid",
+    "timestamp_format": "Must be valid ISO 8601 date-time",
+    "priority_values": "Must be one of: low, medium, high, urgent",
+    "source_values": "Must be one of: gmail, whatsapp, linkedin, filesystem, calendar, slack",
+    "content_body": "Must not be empty",
+    "created_at_format": "Must be valid ISO 8601 date-time"
+  }
+}

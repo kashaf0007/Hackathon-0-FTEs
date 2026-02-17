@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Watcher Configuration",
+  "description": "Configuration for AI Employee watchers",
+  "version": "1.0.0",
+  "watchers": {
+    "gmail": {
+      "enabled": true,
+      "poll_interval_seconds": 600,
+      "credentials_file": "AI_Employee_Vault/Watchers/gmail_credentials.json",
+      "token_file": "AI_Employee_Vault/Watchers/gmail_token.json",
+      "max_results": 10,
+      "filters": {
+        "labels": ["INBOX", "UNREAD"],
+        "exclude_labels": ["SPAM", "TRASH"]
+      }
+    },
+    "linkedin": {
+      "enabled": true,
+      "poll_interval_seconds": 900,
+      "authentication": {
+        "method": "selenium",
+        "email_env_var": "LINKEDIN_EMAIL",
+        "password_env_var": "LINKEDIN_PASSWORD"
+      },
+      "features": {
+        "connection_requests": true,
+        "messages": true,
+        "post_mentions": false
+      },
+      "limits": {
+        "max_connection_requests": 5,
+        "max_messages": 5
+      }
+    },
+    "whatsapp": {
+      "enabled": false,
+      "poll_interval_seconds": 300,
+      "session_path": ".wwebjs_auth",
+      "bridge_url": "http://localhost:5002",
+      "features": {
+        "personal_messages": true,
+        "group_messages": false
+      }
+    }
+  },
+  "global_settings": {
+    "duplicate_detection": {
+      "enabled": true,
+      "max_seen_hashes": 1000
+    },
+    "logging": {
+      "enabled": true,
+      "log_dir": "AI_Employee_Vault/Logs"
+    },
+    "event_queue": {
+      "queue_dir": "AI_Employee_Vault/Needs_Action",
+      "validation": {
+        "enabled": true,
+        "strict_mode": true
+      }
+    },
+    "error_handling": {
+      "max_retries": 3,
+      "retry_delay_seconds": 60,
+      "continue_on_error": true
+    }
+  }
+}

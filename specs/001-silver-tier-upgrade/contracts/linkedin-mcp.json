@@ -1,0 +1,366 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "LinkedIn MCP Server Contract",
+  "description": "JSON-RPC contract for LinkedIn posting MCP server",
+  "version": "1.0.0",
+  "methods": {
+    "create_post": {
+      "description": "Create a LinkedIn post",
+      "params": {
+        "type": "object",
+        "required": ["content"],
+        "properties": {
+          "content": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 3000,
+            "description": "Post content (max 3000 characters)"
+          },
+          "visibility": {
+            "type": "string",
+            "enum": ["public", "connections", "private"],
+            "default": "public",
+            "description": "Post visibility"
+          },
+          "media": {
+            "type": "array",
+            "maxItems": 9,
+            "items": {
+              "type": "object",
+              "required": ["type", "url"],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": ["image", "video", "document"],
+                  "description": "Media type"
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "Media URL or local file path"
+                },
+                "alt_text": {
+                  "type": "string",
+                  "maxLength": 300,
+                  "description": "Alt text for accessibility (images only)"
+                }
+              }
+            },
+            "description": "Media attachments (optional, max 9)"
+          },
+          "hashtags": {
+            "type": "array",
+            "maxItems": 10,
+            "items": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_]+$",
+              "description": "Hashtag without # symbol"
+            },
+            "description": "Hashtags to include (optional, max 10)"
+          },
+          "link": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "description": "Link URL"
+              },
+              "title": {
+                "type": "string",
+                "maxLength": 200,
+                "description": "Link title"
+              },
+              "description": {
+                "type": "string",
+                "maxLength": 300,
+                "description": "Link description"
+              }
+            },
+            "description": "Link preview (optional)"
+          },
+          "schedule_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Schedule post for future time (ISO 8601, optional)"
+          },
+          "metadata": {
+            "type": "object",
+            "description": "Additional metadata for logging/tracking"
+          }
+        }
+      },
+      "result": {
+        "type": "object",
+        "required": ["status", "post_id"],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["published", "scheduled", "failed", "simulated"],
+            "description": "Post status"
+          },
+          "post_id": {
+            "type": "string",
+            "description": "Unique post identifier"
+          },
+          "post_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to the published post"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Publication timestamp (ISO 8601)"
+          },
+          "error": {
+            "type": "string",
+            "description": "Error message if status is 'failed'"
+          }
+        }
+      },
+      "errors": [
+        {
+          "code": -32001,
+          "message": "Content exceeds maximum length"
+        },
+        {
+          "code": -32002,
+          "message": "LinkedIn posting failed"
+        },
+        {
+          "code": -32003,
+          "message": "Rate limit exceeded"
+        },
+        {
+          "code": -32004,
+          "message": "Authentication failed"
+        },
+        {
+          "code": -32005,
+          "message": "Media upload failed"
+        }
+      ]
+    },
+    "delete_post": {
+      "description": "Delete a LinkedIn post",
+      "params": {
+        "type": "object",
+        "required": ["post_id"],
+        "properties": {
+          "post_id": {
+            "type": "string",
+            "description": "Post ID from create_post response"
+          }
+        }
+      },
+      "result": {
+        "type": "object",
+        "required": ["status"],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["deleted", "not_found", "failed"],
+            "description": "Deletion status"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Deletion timestamp"
+          }
+        }
+      }
+    },
+    "get_post_stats": {
+      "description": "Get engagement statistics for a post",
+      "params": {
+        "type": "object",
+        "required": ["post_id"],
+        "properties": {
+          "post_id": {
+            "type": "string",
+            "description": "Post ID from create_post response"
+          }
+        }
+      },
+      "result": {
+        "type": "object",
+        "required": ["post_id", "stats"],
+        "properties": {
+          "post_id": {
+            "type": "string",
+            "description": "Post identifier"
+          },
+          "stats": {
+            "type": "object",
+            "properties": {
+              "views": {
+                "type": "integer",
+                "description": "Number of views"
+              },
+              "likes": {
+                "type": "integer",
+                "description": "Number of likes"
+              },
+              "comments": {
+                "type": "integer",
+                "description": "Number of comments"
+              },
+              "shares": {
+                "type": "integer",
+                "description": "Number of shares"
+              }
+            }
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Stats retrieval timestamp"
+          }
+        }
+      }
+    },
+    "validate_content": {
+      "description": "Validate post content before publishing",
+      "params": {
+        "type": "object",
+        "required": ["content"],
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "Post content to validate"
+          }
+        }
+      },
+      "result": {
+        "type": "object",
+        "required": ["valid"],
+        "properties": {
+          "valid": {
+            "type": "boolean",
+            "description": "Whether the content is valid"
+          },
+          "issues": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of validation issues (if invalid)"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of warnings (content is valid but could be improved)"
+          }
+        }
+      }
+    }
+  },
+  "server_info": {
+    "name": "linkedin-mcp-server",
+    "version": "1.0.0",
+    "protocol": "json-rpc-2.0",
+    "transport": ["stdio", "http"],
+    "capabilities": {
+      "dry_run": true,
+      "logging": true,
+      "rate_limiting": true,
+      "authentication": "required",
+      "scheduling": true
+    }
+  },
+  "configuration": {
+    "required_env_vars": [
+      "LINKEDIN_EMAIL",
+      "LINKEDIN_PASSWORD"
+    ],
+    "optional_env_vars": [
+      "LINKEDIN_ACCESS_TOKEN",
+      "DRY_RUN",
+      "LINKEDIN_API_MODE"
+    ],
+    "authentication_methods": [
+      "selenium",
+      "api"
+    ],
+    "rate_limits": {
+      "posts_per_day": 1,
+      "posts_per_week": 7,
+      "posts_per_month": 30
+    }
+  },
+  "examples": {
+    "create_simple_post": {
+      "request": {
+        "jsonrpc": "2.0",
+        "method": "create_post",
+        "params": {
+          "content": "Excited to share our latest insights on AI automation! 🚀\n\nWe've been building autonomous systems that handle routine tasks, freeing up time for strategic work.\n\nKey learnings:\n- Start small and iterate\n- Human oversight is essential\n- Transparency builds trust\n\nWhat's your experience with AI automation?",
+          "hashtags": ["AI", "Automation", "Productivity", "Innovation"]
+        },
+        "id": 1
+      },
+      "response": {
+        "jsonrpc": "2.0",
+        "result": {
+          "status": "published",
+          "post_id": "linkedin_post_abc123",
+          "post_url": "https://www.linkedin.com/feed/update/urn:li:share:1234567890",
+          "timestamp": "2026-02-17T16:00:00Z"
+        },
+        "id": 1
+      }
+    },
+    "create_post_with_media": {
+      "request": {
+        "jsonrpc": "2.0",
+        "method": "create_post",
+        "params": {
+          "content": "Check out our latest case study on AI-driven business automation!",
+          "media": [
+            {
+              "type": "image",
+              "url": "/path/to/case-study-cover.jpg",
+              "alt_text": "Case study cover showing automation workflow diagram"
+            }
+          ],
+          "hashtags": ["CaseStudy", "BusinessAutomation"]
+        },
+        "id": 2
+      },
+      "response": {
+        "jsonrpc": "2.0",
+        "result": {
+          "status": "published",
+          "post_id": "linkedin_post_def456",
+          "post_url": "https://www.linkedin.com/feed/update/urn:li:share:2345678901",
+          "timestamp": "2026-02-17T16:05:00Z"
+        },
+        "id": 2
+      }
+    },
+    "dry_run_mode": {
+      "request": {
+        "jsonrpc": "2.0",
+        "method": "create_post",
+        "params": {
+          "content": "Test post content",
+          "hashtags": ["Test"]
+        },
+        "id": 3
+      },
+      "response": {
+        "jsonrpc": "2.0",
+        "result": {
+          "status": "simulated",
+          "post_id": "dry_run_post_123",
+          "post_url": null,
+          "timestamp": "2026-02-17T16:10:00Z"
+        },
+        "id": 3
+      }
+    }
+  }
+}

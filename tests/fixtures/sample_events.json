@@ -1,0 +1,109 @@
+[
+  {
+    "event_id": "20260217_143022_gmail_test001",
+    "source": "gmail",
+    "type": "new_email",
+    "timestamp": "2026-02-17T14:30:22Z",
+    "priority": "medium",
+    "content": {
+      "subject": "Question about your services",
+      "body": "Hi, I'm interested in learning more about your AI consulting services. Could we schedule a call to discuss?",
+      "from": "potential.client@example.com",
+      "to": "me@example.com",
+      "attachments": []
+    },
+    "metadata": {
+      "thread_id": "thread_abc123",
+      "labels": ["INBOX", "UNREAD"],
+      "is_reply": false,
+      "contact_history": "new",
+      "raw_data": {
+        "message_id": "msg_xyz789"
+      }
+    },
+    "created_at": "2026-02-17T14:30:25Z",
+    "processed": false
+  },
+  {
+    "event_id": "20260217_150000_whatsapp_test002",
+    "source": "whatsapp",
+    "type": "new_message",
+    "timestamp": "2026-02-17T15:00:00Z",
+    "priority": "high",
+    "content": {
+      "body": "Hey! Just saw your LinkedIn post. Very interested in discussing a potential collaboration.",
+      "from": "+1234567890",
+      "to": "+0987654321",
+      "attachments": []
+    },
+    "metadata": {
+      "thread_id": "whatsapp_chat_123",
+      "labels": [],
+      "is_reply": false,
+      "contact_history": "known",
+      "raw_data": {
+        "chat_id": "1234567890@c.us",
+        "is_group": false
+      }
+    },
+    "created_at": "2026-02-17T15:00:03Z",
+    "processed": false
+  },
+  {
+    "event_id": "20260217_160000_linkedin_test003",
+    "source": "linkedin",
+    "type": "connection_request",
+    "timestamp": "2026-02-17T16:00:00Z",
+    "priority": "low",
+    "content": {
+      "subject": "Connection Request",
+      "body": "I'd like to add you to my professional network on LinkedIn.",
+      "from": "John Doe",
+      "to": "me",
+      "attachments": []
+    },
+    "metadata": {
+      "labels": ["connection_request"],
+      "is_reply": false,
+      "contact_history": "new",
+      "raw_data": {
+        "profile_url": "https://www.linkedin.com/in/johndoe",
+        "mutual_connections": 5,
+        "company": "Tech Corp"
+      }
+    },
+    "created_at": "2026-02-17T16:00:05Z",
+    "processed": false
+  },
+  {
+    "event_id": "20260217_170000_gmail_test004",
+    "source": "gmail",
+    "type": "new_email",
+    "timestamp": "2026-02-17T17:00:00Z",
+    "priority": "urgent",
+    "content": {
+      "subject": "Payment Invoice #12345",
+      "body": "Please find attached the invoice for $1,500 for consulting services rendered.",
+      "from": "billing@client.com",
+      "to": "me@example.com",
+      "attachments": [
+        {
+          "filename": "invoice_12345.pdf",
+          "size": 245678,
+          "mime_type": "application/pdf"
+        }
+      ]
+    },
+    "metadata": {
+      "thread_id": "thread_def456",
+      "labels": ["INBOX", "IMPORTANT"],
+      "is_reply": false,
+      "contact_history": "frequent",
+      "raw_data": {
+        "message_id": "msg_uvw123"
+      }
+    },
+    "created_at": "2026-02-17T17:00:10Z",
+    "processed": false
+  }
+]

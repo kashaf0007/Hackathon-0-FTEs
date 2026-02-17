@@ -21,6 +21,13 @@ env/
 # AI Employee Vault - Logs (contains sensitive operational data)
 AI_Employee_Vault/Logs/
 
+# Silver Tier - Credentials and sessions (NEVER commit these)
+*_token.json
+*_credentials.json
+.wwebjs_auth/
+AI_Employee_Vault/Watchers/gmail_token.json
+AI_Employee_Vault/Watchers/gmail_credentials.json
+
 # IDE
 .vscode/
 .idea/

@@ -1,0 +1,37 @@
+# AI Employee Cron Job Definitions
+# Copy these lines to your crontab using: crontab -e
+# Or install automatically using: bash scripts/scheduler_setup.sh
+
+# Format: minute hour day month weekday command
+# All paths should be absolute
+
+# AI Employee - Orchestrator (every 5 minutes)
+# Runs main coordination loop
+*/5 * * * * cd /path/to/AI-Employee-Hackathon && python3 scripts/orchestrator.py --once >> logs/orchestrator.log 2>&1
+
+# AI Employee - Watchers (every 10 minutes)
+# Polls Gmail, LinkedIn, WhatsApp for new events
+*/10 * * * * cd /path/to/AI-Employee-Hackathon && python3 scripts/run_watchers.py >> logs/watchers.log 2>&1
+
+# AI Employee - Dashboard Update (daily at 8:00 AM)
+# Updates Dashboard.md with current status
+0 8 * * * cd /path/to/AI-Employee-Hackathon && python3 scripts/update_dashboard.py >> logs/dashboard.log 2>&1
+
+# AI Employee - Health Check (daily at 9:00 AM)
+# Runs system health monitoring
+0 9 * * * cd /path/to/AI-Employee-Hackathon && python3 scripts/watchdog.py >> logs/watchdog.log 2>&1
+
+# AI Employee - LinkedIn Post (weekly Monday at 9:00 AM)
+# Generates and publishes LinkedIn content
+0 9 * * 1 cd /path/to/AI-Employee-Hackathon && python3 scripts/linkedin_scheduler.py >> logs/linkedin.log 2>&1
+
+# Optional: Log rotation (weekly Sunday at midnight)
+# Compresses old log files to save space
+# 0 0 * * 0 cd /path/to/AI-Employee-Hackathon && find logs/ -name "*.log" -mtime +7 -exec gzip {} \;
+
+# Notes:
+# - Replace /path/to/AI-Employee-Hackathon with your actual project path
+# - Ensure Python 3.11+ is installed and in PATH
+# - Create logs directory: mkdir -p logs
+# - Set DRY_RUN environment variable appropriately
+# - Monitor logs: tail -f logs/orchestrator.log

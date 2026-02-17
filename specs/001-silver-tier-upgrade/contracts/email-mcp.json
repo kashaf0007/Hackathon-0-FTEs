@@ -1,0 +1,296 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Email MCP Server Contract",
+  "description": "JSON-RPC contract for email sending MCP server",
+  "version": "1.0.0",
+  "methods": {
+    "send_email": {
+      "description": "Send an email via the configured email provider",
+      "params": {
+        "type": "object",
+        "required": ["to", "subject", "body"],
+        "properties": {
+          "to": {
+            "type": "string",
+            "format": "email",
+            "description": "Recipient email address"
+          },
+          "cc": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "email"
+            },
+            "description": "CC recipients (optional)"
+          },
+          "bcc": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "email"
+            },
+            "description": "BCC recipients (optional)"
+          },
+          "subject": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Email subject line"
+          },
+          "body": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Email body (plain text or HTML)"
+          },
+          "body_type": {
+            "type": "string",
+            "enum": ["plain", "html"],
+            "default": "plain",
+            "description": "Body content type"
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["filename", "content"],
+              "properties": {
+                "filename": {
+                  "type": "string",
+                  "description": "Attachment filename"
+                },
+                "content": {
+                  "type": "string",
+                  "description": "Base64-encoded file content"
+                },
+                "mime_type": {
+                  "type": "string",
+                  "description": "MIME type (optional, auto-detected if not provided)"
+                }
+              }
+            },
+            "description": "Email attachments (optional)"
+          },
+          "reply_to": {
+            "type": "string",
+            "format": "email",
+            "description": "Reply-to address (optional)"
+          },
+          "priority": {
+            "type": "string",
+            "enum": ["low", "normal", "high"],
+            "default": "normal",
+            "description": "Email priority"
+          },
+          "metadata": {
+            "type": "object",
+            "description": "Additional metadata for logging/tracking"
+          }
+        }
+      },
+      "result": {
+        "type": "object",
+        "required": ["status", "message_id"],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["sent", "queued", "failed", "simulated"],
+            "description": "Send status"
+          },
+          "message_id": {
+            "type": "string",
+            "description": "Unique message identifier"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Send timestamp (ISO 8601)"
+          },
+          "error": {
+            "type": "string",
+            "description": "Error message if status is 'failed'"
+          }
+        }
+      },
+      "errors": [
+        {
+          "code": -32001,
+          "message": "Invalid email address"
+        },
+        {
+          "code": -32002,
+          "message": "Email sending failed"
+        },
+        {
+          "code": -32003,
+          "message": "Rate limit exceeded"
+        },
+        {
+          "code": -32004,
+          "message": "Authentication failed"
+        }
+      ]
+    },
+    "get_status": {
+      "description": "Get the status of a previously sent email",
+      "params": {
+        "type": "object",
+        "required": ["message_id"],
+        "properties": {
+          "message_id": {
+            "type": "string",
+            "description": "Message ID from send_email response"
+          }
+        }
+      },
+      "result": {
+        "type": "object",
+        "required": ["status"],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["sent", "delivered", "bounced", "failed", "unknown"],
+            "description": "Current message status"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Status update timestamp"
+          },
+          "details": {
+            "type": "string",
+            "description": "Additional status details"
+          }
+        }
+      }
+    },
+    "validate_address": {
+      "description": "Validate an email address format",
+      "params": {
+        "type": "object",
+        "required": ["email"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "Email address to validate"
+          }
+        }
+      },
+      "result": {
+        "type": "object",
+        "required": ["valid"],
+        "properties": {
+          "valid": {
+            "type": "boolean",
+            "description": "Whether the email address is valid"
+          },
+          "reason": {
+            "type": "string",
+            "description": "Validation failure reason (if invalid)"
+          }
+        }
+      }
+    }
+  },
+  "server_info": {
+    "name": "email-mcp-server",
+    "version": "1.0.0",
+    "protocol": "json-rpc-2.0",
+    "transport": ["stdio", "http"],
+    "capabilities": {
+      "dry_run": true,
+      "logging": true,
+      "rate_limiting": true,
+      "authentication": "required"
+    }
+  },
+  "configuration": {
+    "required_env_vars": [
+      "EMAIL_PROVIDER",
+      "EMAIL_FROM",
+      "EMAIL_USERNAME",
+      "EMAIL_PASSWORD"
+    ],
+    "optional_env_vars": [
+      "EMAIL_SMTP_HOST",
+      "EMAIL_SMTP_PORT",
+      "EMAIL_USE_TLS",
+      "DRY_RUN"
+    ],
+    "supported_providers": [
+      "gmail",
+      "smtp"
+    ]
+  },
+  "examples": {
+    "send_simple_email": {
+      "request": {
+        "jsonrpc": "2.0",
+        "method": "send_email",
+        "params": {
+          "to": "recipient@example.com",
+          "subject": "Test Email",
+          "body": "This is a test email from the AI Employee system."
+        },
+        "id": 1
+      },
+      "response": {
+        "jsonrpc": "2.0",
+        "result": {
+          "status": "sent",
+          "message_id": "msg_abc123xyz",
+          "timestamp": "2026-02-17T15:30:00Z"
+        },
+        "id": 1
+      }
+    },
+    "send_email_with_attachments": {
+      "request": {
+        "jsonrpc": "2.0",
+        "method": "send_email",
+        "params": {
+          "to": "client@example.com",
+          "subject": "Proposal Document",
+          "body": "Please find attached our proposal.",
+          "attachments": [
+            {
+              "filename": "proposal.pdf",
+              "content": "base64_encoded_content_here",
+              "mime_type": "application/pdf"
+            }
+          ]
+        },
+        "id": 2
+      },
+      "response": {
+        "jsonrpc": "2.0",
+        "result": {
+          "status": "sent",
+          "message_id": "msg_def456uvw",
+          "timestamp": "2026-02-17T15:35:00Z"
+        },
+        "id": 2
+      }
+    },
+    "dry_run_mode": {
+      "request": {
+        "jsonrpc": "2.0",
+        "method": "send_email",
+        "params": {
+          "to": "test@example.com",
+          "subject": "Test",
+          "body": "Test body"
+        },
+        "id": 3
+      },
+      "response": {
+        "jsonrpc": "2.0",
+        "result": {
+          "status": "simulated",
+          "message_id": "dry_run_msg_123",
+          "timestamp": "2026-02-17T15:40:00Z"
+        },
+        "id": 3
+      }
+    }
+  }
+}

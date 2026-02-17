@@ -1,0 +1,77 @@
+{
+  "servers": {
+    "email_server": {
+      "enabled": true,
+      "host": "localhost",
+      "port": 5001,
+      "protocol": "json-rpc-2.0",
+      "methods": [
+        "send_email",
+        "get_status",
+        "validate_address"
+      ],
+      "authentication": {
+        "type": "oauth2",
+        "credentials_file": "gmail_credentials.json",
+        "token_file": "gmail_token.json",
+        "scopes": [
+          "https://www.googleapis.com/auth/gmail.send"
+        ]
+      },
+      "rate_limits": {
+        "requests_per_minute": 60,
+        "requests_per_day": 10000
+      },
+      "retry": {
+        "max_attempts": 3,
+        "base_delay_seconds": 5,
+        "exponential_backoff": true
+      }
+    },
+    "linkedin_server": {
+      "enabled": true,
+      "host": "localhost",
+      "port": 5002,
+      "protocol": "json-rpc-2.0",
+      "methods": [
+        "create_post",
+        "delete_post",
+        "get_post_stats",
+        "validate_content"
+      ],
+      "authentication": {
+        "type": "credentials",
+        "email_env": "LINKEDIN_EMAIL",
+        "password_env": "LINKEDIN_PASSWORD"
+      },
+      "rate_limits": {
+        "posts_per_day": 5,
+        "requests_per_minute": 30
+      },
+      "retry": {
+        "max_attempts": 3,
+        "base_delay_seconds": 5,
+        "exponential_backoff": true
+      },
+      "selenium": {
+        "headless": true,
+        "implicit_wait": 10,
+        "page_load_timeout": 30
+      }
+    }
+  },
+  "global_settings": {
+    "dry_run": true,
+    "log_all_requests": true,
+    "log_all_responses": true,
+    "timeout_seconds": 300,
+    "enable_metrics": true
+  },
+  "logging": {
+    "level": "info",
+    "format": "json",
+    "log_dir": "AI_Employee_Vault/Logs",
+    "rotate": true,
+    "max_size_mb": 100
+  }
+}
