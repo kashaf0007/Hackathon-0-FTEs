@@ -1,0 +1,13 @@
+{
+  "event_id": "20260218_test_001",
+  "source": "manual_test",
+  "created_at": "2026-02-18T10:00:00Z",
+  "processed": false,
+  "event_type": "test",
+  "priority": "LOW",
+  "data": {
+    "title": "Test Event",
+    "description": "This is a test event to verify the orchestrator is working",
+    "context": "Testing the AI Employee system without external credentials"
+  }
+}

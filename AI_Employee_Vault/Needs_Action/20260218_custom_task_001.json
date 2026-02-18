@@ -1,0 +1,15 @@
+{
+  "event_id": "20260218_custom_task_001",
+  "source": "manual",
+  "created_at": "2026-02-18T12:00:00Z",
+  "processed": false,
+  "event_type": "custom_task",
+  "priority": "MEDIUM",
+  "data": {
+    "title": "Draft Email Response",
+    "description": "Draft a professional email response to a client inquiry",
+    "context": "Client asked about our services and pricing",
+    "recipient": "client@example.com",
+    "subject": "Re: Service Inquiry"
+  }
+}

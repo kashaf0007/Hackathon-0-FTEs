@@ -5,7 +5,7 @@
   "version": "1.0.0",
   "watchers": {
     "gmail": {
-      "enabled": true,
+      "enabled": false,
       "poll_interval_seconds": 600,
       "credentials_file": "AI_Employee_Vault/Watchers/gmail_credentials.json",
       "token_file": "AI_Employee_Vault/Watchers/gmail_token.json",
@@ -16,7 +16,7 @@
       }
     },
     "linkedin": {
-      "enabled": true,
+      "enabled": false,
       "poll_interval_seconds": 900,
       "authentication": {
         "method": "selenium",
