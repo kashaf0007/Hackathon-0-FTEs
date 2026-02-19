@@ -1,0 +1,30 @@
+{
+  "event_id": "20260220_025756_gmail_0d3227",
+  "source": "gmail",
+  "type": "new_email",
+  "timestamp": "2026-02-20T02:57:56.219046Z",
+  "priority": "medium",
+  "content": {
+    "subject": "Your new privacy settings on Play",
+    "body": "\r\nHello Kashaf,\r\n\r\n\r\nNow that you’ve added your account to your device, we’d like to share more  \r\ninformation on how to manage your privacy settings on Play. We’ve updated  \r\nsettings that manage personalization and activity history on Google Play.  \r\n<https://support.google.com/googleplay/answer/13780792>Learn more about  \r\nPlay personalization and Play History\r\n\r\nThese settings were previously managed by Web & App Activity in your Google  \r\nAccount, but now they’re managed directly on Play. You decide what kind of  \r\ninformation is saved to your Google Account’s Play History and whether you  \r\nreceive a more personalized experience on Play. In Web & App Activity you  \r\nchose to receive more personalized experiences in Google services,  \r\nincluding Play. Your new Play settings match those preferences, which means  \r\nyou’re currently getting a more personalized experience on Play.\r\n\r\nYou can change these settings in  \r\n<https://myactivity.google.com/product/google_play/personalization>Personalization  \r\nin Play at any time. When saving Play History, you can also choose how long  \r\ndata is saved before it’s automatically deleted or manually delete your  \r\ndata from your Google Account’s Play History at any time. Going forward,  \r\nWeb & App Activity and these Play settings will be separate, and changes to  \r\none won’t affect the other.\r\n\r\nThanks for using Google Play!\r\n\r\nShould you have any questions please visit our  \r\n<https://notifications.google.com/g/p/ANiao5oRRq0eA50bEW-9D6N8upfeW0HxV9wA8lODs7ab7yXcEGdX4w9LZlb2nqrA_AOfq5sTY9uOrLIo_xwFMd0jwS-ZJjgn5mC31z45ySqgAxrUqqKmZffjVnKgDTHP0n98QE9pfdosCDug9oLl6zGrTWp1YmCRbF08dSqMA7Xh5VNswNToSKdgkyO_7XMQQBZfbSS8OD-Pq1ZDTswBPvMSZhz0fTytvSaU8B9Cuqv7IWUnQpnDg9wizn3gEdkfy8s19Tz4>Help  \r\nCenter or get in  \r\n<https://notifications.google.com/g/p/ANiao5ppRjSyPEnzO-QKibVlGE7VlQnOpxw-BlC0rQ5RFGPruxzVOep0mY6k5PZGJtQZw5w_MzhxnoTKwfDhzX-oDXDtjuShn1EldBJkXI3-ys2a41YodB0UXVbY_V1G4hq9PGv9I2iNjQ-mgDIpPPpC9LzqIX5KmMzPgceOJhZncoAmd2wWyr1lwTjIiP7HRueIo8GA02qPiQAJDRdUCrqh0h8gFje2Ga3nZFtMLCCzlij7WNdoYEDQ94BfFIAh>touch .\r\n\r\n© 2026 Google LLC 1600 Amphitheatre Parkway, Mountain View, CA 94043\r\n\r\nYou have received this mandatory email service announcement to update you  \r\nabout important changes to your Play product or account.\r\n\r\nPlease do not reply to this email, as we are unable to respond from this  \r\nemail address. If you need support, please visit the  \r\n<https://support.google.com/googleplay>Google Play Help Center .\r\n",
+    "from": "Google Play <googleplay-noreply@google.com>",
+    "to": "kashafamaan303@gmail.com",
+    "attachments": []
+  },
+  "metadata": {
+    "thread_id": "19c7359afb2f36e4",
+    "labels": [
+      "UNREAD",
+      "CATEGORY_UPDATES",
+      "INBOX"
+    ],
+    "is_reply": false,
+    "contact_history": "new",
+    "raw_data": {
+      "message_id": "19c7359afb2f36e4",
+      "snippet": "Hello Kashaf, Now that you&#39;ve added your account to your device, we&#39;d like to share more information on how to manage your privacy settings on Play. We&#39;ve updated settings that manage"
+    }
+  },
+  "created_at": "2026-02-20T02:57:56.779791Z",
+  "processed": false
+}

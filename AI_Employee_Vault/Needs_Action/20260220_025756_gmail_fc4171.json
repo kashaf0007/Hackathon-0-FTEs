@@ -1,0 +1,30 @@
+{
+  "event_id": "20260220_025756_gmail_fc4171",
+  "source": "gmail",
+  "type": "new_email",
+  "timestamp": "2026-02-20T02:57:56.475553Z",
+  "priority": "medium",
+  "content": {
+    "subject": "Reinstated: Google Cloud Platform/APIs project AI Employee  (id: ai-employee-487823)",
+    "body": "Thank you for your patience. Your project has been reinstated.\r\n\r\n\r\n\r\n\r\nGoogle Cloud Platform\r\n\r\n\r\n\r\nMY CONSOLE\r\n\r\n\r\n\r\n\r\nNotification Project reinstatement\r\n\r\n\r\n\r\nYour Google Cloud Platform/API project AI Employee (id: ai-employee-487823)  \r\nhas been reinstated.\r\n\r\n\r\n\r\nDear Developer,\r\n\r\n\r\nBased on information that you have provided, we have reinstated project AI  \r\nEmployee (id: ai-employee-487823). Please fix any outstanding issues to  \r\nensure that your project complies with the Google Cloud Platform Terms of  \r\nService and Acceptable Use Policy.\r\n\r\nWe also send these notifications in log format. Please log in to your  \r\nconsole to review this notification in Cloud Logging.\r\n\r\n\r\n\r\n\r\nGO TO MY CONSOLE\r\n\r\n\r\n\r\n\r\nYours sincerely,\r\n\r\nGoogle Cloud Platform Trust & Safety\r\n\r\n\r\n\r\n\r\nGoogle\r\n\r\n© 2019 Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043\r\n\r\nYou have received this mandatory service announcement to update you about  \r\nimportant changes to Google Cloud Platform or your account.\r\n\r\n\r\n\r\n\r\n",
+    "from": "google-cloud-compliance@google.com",
+    "to": "kashafamaan303@gmail.com",
+    "attachments": []
+  },
+  "metadata": {
+    "thread_id": "19c73598d1ba8c5c",
+    "labels": [
+      "UNREAD",
+      "CATEGORY_PERSONAL",
+      "INBOX"
+    ],
+    "is_reply": false,
+    "contact_history": "new",
+    "raw_data": {
+      "message_id": "19c73598d1ba8c5c",
+      "snippet": "Thank you for your patience. Your project has been reinstated. MY CONSOLE Project reinstatement Your Google Cloud Platform/API project AI Employee (id: ai-employee-487823) has been reinstated. Dear"
+    }
+  },
+  "created_at": "2026-02-20T02:57:56.840315Z",
+  "processed": false
+}

@@ -17,6 +17,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from AI_Employee_Vault.Watchers.gmail_watcher import GmailWatcher
 from AI_Employee_Vault.Watchers.linkedin_watcher import LinkedInWatcher
+from AI_Employee_Vault.Watchers.whatsapp_watcher import WhatsAppWatcher
 from scripts.logger import get_logger
 
 
@@ -64,8 +65,8 @@ def run_watcher(watcher_name: str, watcher_config: Dict[str, Any], test_mode: bo
         elif watcher_name == 'linkedin':
             watcher = LinkedInWatcher(poll_interval=poll_interval)
         elif watcher_name == 'whatsapp':
-            print(f"WhatsApp watcher not yet implemented")
-            return
+            bridge_url = watcher_config.get('bridge_url', 'http://localhost:5002')
+            watcher = WhatsAppWatcher(poll_interval=poll_interval, bridge_url=bridge_url)
         else:
             print(f"Unknown watcher: {watcher_name}")
             return
