@@ -1,0 +1,31 @@
+{
+  "event_id": "20260220_112602_gmail_0a0190",
+  "source": "gmail",
+  "type": "new_email",
+  "timestamp": "2026-02-20T11:25:58.842727Z",
+  "priority": "high",
+  "content": {
+    "subject": "Security alert",
+    "body": "[image: Google]\r\nApp password created to sign in to your account\r\n\r\n\r\nkashafamaan303@gmail.com\r\nIf you didn't generate this password for AI Employee 2, someone might be\r\nusing your account. Check and secure your account now.\r\nCheck activity\r\n<https://accounts.google.com/AccountChooser?Email=kashafamaan303@gmail.com&continue=https://myaccount.google.com/alert/nt/1771544494240?rfn%3D20%26rfnc%3D1%26eid%3D6531884684994115809%26et%3D0>\r\nYou can also see security activity at\r\nhttps://myaccount.google.com/notifications\r\nYou received this email to let you know about important changes to your\r\nGoogle Account and services.\r\n© 2026 Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA\r\n",
+    "from": "Google <no-reply@accounts.google.com>",
+    "to": "kashafamaan303@gmail.com",
+    "attachments": []
+  },
+  "metadata": {
+    "thread_id": "19c784607862e8c4",
+    "labels": [
+      "UNREAD",
+      "IMPORTANT",
+      "CATEGORY_UPDATES",
+      "INBOX"
+    ],
+    "is_reply": false,
+    "contact_history": "new",
+    "raw_data": {
+      "message_id": "19c7847c45de98fa",
+      "snippet": "App password created to sign in to your account kashafamaan303@gmail.com If you didn&#39;t generate this password for AI Employee 2, someone might be using your account. Check and secure your account"
+    }
+  },
+  "created_at": "2026-02-20T11:26:02.799996Z",
+  "processed": false
+}

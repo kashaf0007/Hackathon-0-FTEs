@@ -264,13 +264,13 @@ def main():
     watcher = GmailWatcher(poll_interval=args.interval)
 
     if args.authenticate:
-        print("✓ Authentication successful")
+        print("[OK] Authentication successful")
         return
 
     if args.test:
         print("Running test poll...")
         count = watcher.poll_once()
-        print(f"✓ Found {count} new events")
+        print(f"[OK] Found {count} new events")
         return
 
     print(f"Starting Gmail watcher (polling every {args.interval} seconds)...")
